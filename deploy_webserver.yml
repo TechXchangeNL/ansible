@@ -2,6 +2,9 @@
 - name: Install Webserver
   hosts: all
   become: true
+  vars:
+    facts_dir: "/etc/ansible/facts.d"
+    
   tasks:
     - name: Ensure the httpd package is installed
       ansible.builtin.package:
