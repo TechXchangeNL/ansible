@@ -9,6 +9,6 @@
 
   tasks:
   - name: Copy the code from repository
-    git:
-      repo: "https://github.com/TechXchangeNL/website.git"
+    ansible.builtin.git:
+      repo: 'https://github.com/TechXchangeNL/website.git'
       dest: /var/www/html/
