@@ -53,7 +53,7 @@ Apart from the already available machine credential, you need a few more..
   workspaces { name = "YOURWORKSPACE" }  
   ```
 
-> You need to have a Terraform token for both credentials. You find this in HCP Terraform under Projects -> defualt project -> settings -> variable sets -> AAP -> TERRAFORM_TOKEN
+> You need to have a Terraform token for both credentials. You find this in HCP Terraform under Projects -> defualt project -> settings -> variable sets -> AAP -> TERRAFORM_TOKEN \b
 > For workspace enter the workspace you made in Terraform as part of the prep work you need to do in HCP Terraform
 
 ### Inventories
