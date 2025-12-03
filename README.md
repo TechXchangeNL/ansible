@@ -56,7 +56,7 @@ Apart from the already available machine credential, you need a few more..
 > You need to have a Terraform token for both credentials. You find this in HCP Terraform under Projects -> default project -> settings -> variable sets -> AAP -> TERRAFORM_TOKEN. For workspace enter the workspace you made in Terraform as part of the prep work you need to do in HCP Terraform
 
 ### Inventories
-Inventories are either _pushed_ by HCP Terraform or _pulled_ by AAP using Dynamic Inventory Plugins. When pushed, they are fully maintained by HCP Terraform. With the Dynamic Inventory Plugins AAP is in control. For this workshop AAP can _pull_ the hosts either from HCP or from the Cloud where HCP deploys to. We will configure both into the same Inventory so we can try both.
+Inventories are either _pushed_ by HCP Terraform or _pulled_ by AAP using Dynamic Inventory Plugins. When pushed, they are fully maintained by HCP Terraform. With the Dynamic Inventory Plugins AAP is in control. For this workshop AAP will _pull_ the hosts from the HCP Terraform statefile. As an alternative and only as a fallback we will also configure a source for syncing from AWS instead of HCP Terraform Statefile.
 
 Create an inventory called `TechXchangeNL`. In this inventory create two sources:
 
@@ -79,20 +79,20 @@ keyed_groups:
   - `keyed_groups` is used to make inventory groups from tag values as received from HCP Terraform. So here a group will be created with prefix role and the value from tag Role as received from HPC. So: `role_<tagvalue>`. The host will be placed in this group.
 
 Also, you need the `Terraform Backend Configuration` Credential you made before as the credential for this source. You can test it by syncing the source manually.
-Do **NOT** enable _update on launch_.
+Enable both `Override` and `Override Variables` but do **NOT** enable _update on launch_.
 
-#### Dynanic Inventory Source for AWS
-Create a Dynamic inventory source in the inventory `TechXchangeNL` named `AWS`". This source is of type `Amazon EC2` and needs some configuration to do the magic. Use the provided execution environment `ee-tech-x-change-nl`. The config that you need to give in the `Source Variables` is:
+
+#### Dynanic Inventory Source for AWS (fallback)
+Create a Dynamic inventory source in the inventory `TechXchangeNL` named `AWS`". This source is of type `Amazon EC2` and needs some configuration to do the magic. Use the provided execution environment `ee-ansible-ssa` (contains the AWS collection). The config that you need to give in the `Source Variables` is:
 ```text
 keyed_groups:
   - prefix: role
     key: tags.Role
 ```
-  So what does this do:
-  - `keyed_groups` is used to make inventory groups from tag values as received from AWS EC2. So here a group will be created with prefix role and the value from tag Role as received from AWS. So: `role_<tagvalue>`. The hosts will be placed in this group.
+This does the same thing as `keyed_groups` for the HCP Terraform Statefile Dynamic Inventory Source you defined above.
 
 Also, you need the `AWS` Credential you were provided as the credential for this source. You can test it by syncing the source manually.
-Do **NOT** enable _update on launch_.
+Enable both `Override` and `Override Variables` but do **NOT** enable _update on launch_.
 
 
 ### Playbooks
