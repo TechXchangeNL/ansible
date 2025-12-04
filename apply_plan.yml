@@ -2,4 +2,10 @@
   hosts: all
   tasks:
   - name: Apply a terraform plan
-
+- name: Create a plan-only run without polling
+  hashicorp.terraform.run:
+    workspace_id: "terraform-vos0w01"
+    run_message: "Quick plan check"
+    plan_only: true
+    poll: false
+    state: "present"
